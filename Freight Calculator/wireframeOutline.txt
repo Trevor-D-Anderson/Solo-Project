@@ -1,11 +1,11 @@
 Name: Trevor
 Project Title: Freight Calculator
 Project Stack: Python
-GitHub Repo Link: 
+GitHub Repo Link: https://github.com/Trevor-D-Anderson/Solo-Project
 
-Project Description: 
+Project Description: A Freight Calculator that takes in dimensions and output the converted values and Chargeable weight. Also Will be able to store specific dimension profiles by registering.
 
-New Programming Concept(s) I'm Planning to Learn: 
+New Programming Concept(s) I'm Planning to Learn: More front-end javascript to do the calculations on the front end and to add/remove input fields by using a button. 
 
 Week 1 Features (to show at Review during Week 2)
 - Sign up for a group (https://docs.google.com/spreadsheets/d/1x9PRE-xviP4N-jjPWlFNkNycPIzgeYyQKphdLFeaxGs/edit#gid=0)
