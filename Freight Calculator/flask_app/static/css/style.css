@@ -10,3 +10,7 @@
 .remove {
   width: 125px;
 }
+.labels {
+  display: flex;
+  justify-content: space-between;
+}
