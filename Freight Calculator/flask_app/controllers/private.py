@@ -23,3 +23,8 @@ def home():
         return redirect("/")
     id = {"id": session['user_id']}
     return render_template('home.html', profiles=Profile.get_profiles())
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect('/')

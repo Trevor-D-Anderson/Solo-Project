@@ -4,7 +4,9 @@ var totalWeight = 0;
 function getFormData() {
   let output = document.querySelector(".chargeable");
   output.innerHTML = "";
-  const dimensionType = document.getElementById("dimensionType").value;
+  var dimensionType = document.getElementById("dimensionType").value;
+  var outputDims = document.getElementById("outputDims").value;
+  var outputWeight = document.getElementById("outputWeight").value;
   let weightType = "";
   if (document.getElementById("kilos").checked == true) {
     weightType = "kg";
@@ -13,23 +15,13 @@ function getFormData() {
   }
   totalChargeable = 0;
   totalWeight = 0;
+  console.log(weightType, outputWeight);
   for (let x = 0; x < count; x++) {
-    console.log(document.getElementById(`numberOfPcs${x + 1}`).value);
-    const numOfPcs = document.getElementById(`numberOfPcs${x + 1}`).value;
-    const length = document.getElementById(`length${x + 1}`).value;
-    const width = document.getElementById(`width${x + 1}`).value;
-    const height = document.getElementById(`height${x + 1}`).value;
-    const weight = document.getElementById(`weight${x + 1}`).value;
-    console.log(
-      dimensionType,
-      weightType,
-      numOfPcs,
-      length,
-      width,
-      height,
-      weight
-    );
-    // calculateChargeable(dimensionType, numOfPcs, length, width, height);
+    var numOfPcs = document.getElementById(`numberOfPcs${x + 1}`).value;
+    var length = document.getElementById(`length${x + 1}`).value;
+    var width = document.getElementById(`width${x + 1}`).value;
+    var height = document.getElementById(`height${x + 1}`).value;
+    var weight = document.getElementById(`weight${x + 1}`).value;
     const volume = calculateChargeable(
       dimensionType,
       numOfPcs,
@@ -39,19 +31,26 @@ function getFormData() {
     );
     totalWeight += numOfPcs * weight;
     output.innerHTML += `<tr>
-    <td>${x + 1}</td>
-    <td>${numOfPcs}</td>
-    <td>${length}</td>
-    <td>${width}</td>
-    <td>${height}</td>
-    <td>${weight}</td>
-    <td>${weight * numOfPcs}</td>
+      <td>${x + 1}</td>
+      <td>${numOfPcs}</td>
+      <td>${convertDims(dimensionType, outputDims, length)}</td>
+      <td>${convertDims(dimensionType, outputDims, width)}</td>
+    <td>${convertDims(dimensionType, outputDims, height)}</td>
+    <td>${convertWeight(weightType, outputWeight, weight)}</td>
+    <td>${convertWeight(weightType, outputWeight, weight * numOfPcs)}</td>
     <td>${volume} kgs</td>
     </tr>`;
   }
   var totals = document.querySelector(".totals");
-  totals.innerHTML = `<h4>Total Weight: ${totalWeight} ${weightType}s</h4>
-  <h4>Total Chargeable: ${Math.ceil(totalChargeable)} kgs</h4>`;
+  totals.innerHTML = `<h4>Total Weight: ${convertWeight(
+    weightType,
+    outputWeight,
+    totalWeight
+  )} ${outputWeight}</h4>
+  <h4>Total Chargeable: ${roundUp(
+    convertWeight(weightType, outputWeight, totalChargeable),
+    1
+  )} ${outputWeight}</h4>`;
 }
 
 const calculateChargeable = (
@@ -64,14 +63,12 @@ const calculateChargeable = (
   let chargeable = 0;
   if (dimensionType == "in") {
     chargeable = ((length * width * height) / 366) * numOfPcs;
-    console.log(chargeable);
     totalChargeable += chargeable;
-    return Math.ceil(chargeable);
+    return roundUp(chargeable, 1);
   } else if (dimensionType == "cm") {
     chargeable = ((length * width * height) / 6000) * numOfPcs;
     totalChargeable += chargeable;
-    console.log(chargeable);
-    return Math.ceil(chargeable);
+    return roundUp(chargeable, 1);
   }
 };
 
@@ -159,3 +156,39 @@ const removeLine = () => {
   line.remove();
   count -= 1;
 };
+
+const convertDims = (inputDims, outputDims, num) => {
+  if (
+    (outputDims == "cm" && inputDims == "cm") ||
+    (outputDims == "in" && inputDims == "in")
+  ) {
+    return num;
+  } else if (inputDims == "in" && outputDims == "cm") {
+    num = roundUp(num * 2.54, 1);
+    return num;
+  } else if (inputDims == "cm" && outputDims == "in") {
+    num = roundUp(num * 0.3937007874, 1);
+    return num;
+  }
+};
+const convertWeight = (inputWeight, outputWeight, num) => {
+  if (
+    (outputWeight == "kg" && inputWeight == "kg") ||
+    (outputWeight == "lb" && inputWeight == "lb")
+  ) {
+    console.log("here");
+    return num;
+  } else if (inputWeight == "kg" && outputWeight == "lb") {
+    num = roundUp(num * 2.2046, 1);
+    console.log(`kgs to lbs`);
+    return num;
+  } else if (inputWeight == "lb" && outputWeight == "kg") {
+    num = roundUp(num / 2.2046, 1);
+    console.log("lbs to kgs");
+    return num;
+  }
+};
+function roundUp(num, precision) {
+  precision = Math.pow(10, precision);
+  return Math.ceil(num * precision) / precision;
+}

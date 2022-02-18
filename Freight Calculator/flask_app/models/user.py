@@ -11,8 +11,8 @@ my_db = "freight_calculator_schema"
 class User:
     def __init__(self, data):
         self.id = data['id']
-        self.first_name = data['first_name']
-        self.last_name = data['last_name']
+        self.first_name = data['firstName']
+        self.last_name = data['lastName']
         self.email = data['email']
         self.password = data['password']
         self.created_at = data['created_at']
@@ -20,7 +20,7 @@ class User:
 
     @classmethod
     def create_user(cls, data):
-        query = "INSERT INTO users (first_name, last_name, email, password) VALUES(%(first_name)s, %(last_name)s, %(email)s, %(password)s)"
+        query = "INSERT INTO users (firstName, lastName, email, password) VALUES(%(firstName)s, %(lastName)s, %(email)s, %(password)s)"
         return connectToMySQL(my_db).query_db(query,data)
 
     @classmethod
@@ -58,10 +58,10 @@ class User:
     @staticmethod
     def validate_user(user):
         is_valid = True
-        if len(user['first_name']) <3:
+        if len(user['firstName']) <3:
             flash("First name must be at least 3 characters")
             is_valid = False
-        if len(user['last_name']) <3:
+        if len(user['lastName']) <3:
             flash("Last name must be at least 3 characters")
             is_valid = False
         if len(user['password']) <8:
@@ -73,7 +73,7 @@ class User:
         if not PASSWORD_REGEX.match(user['password']): 
             flash("Invalid Password! Must include 1 capital letter and 1 number.")
             is_valid = False
-        if user['password'] != user['confirm_password']:
+        if user['password'] != user['confirmPassword']:
             flash("Passwords Must Match")
             is_valid = False
         return is_valid
