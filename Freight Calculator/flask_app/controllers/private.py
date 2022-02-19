@@ -6,6 +6,15 @@ from flask_app.models.shipmentProfile import Profile
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
+@app.route("/private_calculator")
+def private():
+    if session.get('logged_in') == "none":
+        return redirect("/")
+    if not session.get('logged_in') == True:
+        return redirect("/")
+    id = {"id": session['user_id']}
+    return render_template("privateCalculator.html")
+
 @app.route("/dashboard")
 def dashboard():
     if session.get('logged_in') == "none":
@@ -15,14 +24,14 @@ def dashboard():
     id = {"id": session['user_id']}
     return render_template('dashboard.html')
 
-@app.route("/home")
-def home():
-    if session.get('logged_in') == "none":
-        return redirect("/")
-    if not session.get('logged_in') == True:
-        return redirect("/")
-    id = {"id": session['user_id']}
-    return render_template('home.html', profiles=Profile.get_profiles())
+# @app.route("/home")
+# def home():
+#     if session.get('logged_in') == "none":
+#         return redirect("/")
+#     if not session.get('logged_in') == True:
+#         return redirect("/")
+#     id = {"id": session['user_id']}
+#     return render_template('home.html', profiles=Profile.get_profiles())
 
 @app.route("/logout")
 def logout():

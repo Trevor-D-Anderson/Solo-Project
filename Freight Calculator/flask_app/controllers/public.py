@@ -30,7 +30,7 @@ def create_users():
     session['logged_in'] = True
     session['user_id'] = user_in_db.id
     session['firstName'] = user_in_db.first_name
-    return redirect("/dashboard")
+    return redirect("/private_calculator")
 
 @app.route('/login_user', methods=['POST'])
 def login_user():
@@ -50,4 +50,4 @@ def login_user():
     session['firstName'] = user_in_db.first_name
     session['logged_in'] = True
     # never render on a post!!!
-    return redirect("/home")
+    return redirect("/private_calculator")

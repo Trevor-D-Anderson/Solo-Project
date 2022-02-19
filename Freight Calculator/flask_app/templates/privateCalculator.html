@@ -59,17 +59,35 @@
           <thead>
             <tr>
               <th scope="col">#</th>
+              <th scope="col">Profile Name</th>
               <th scope="col">Number of Pcs</th>
               <th scope="col">Length</th>
               <th scope="col">Width</th>
               <th scope="col">Height</th>
               <th scope="col">Weight Per Pce:</th>
               <th scope="col" class="weightLabel" name="weightLabel">kgs</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody id="newLine">
             <tr>
               <th scope="row">1</th>
+              <td id="profileName0">
+                <Select class="newName" onchange="changeInput(this, 0)" name="profileName0" id="selectProfile0">
+                  <option disabled selected >Select Profile</option>
+                  {% for profile in profiles %}
+                  <option value="{{profile.id}}">{{profile.name}}</option>
+                  {% endfor %}
+                  <option value="newProfile">New Profile</option>
+                </Select>
+                <!-- <input
+                  class="dims pcs"
+                  type="text"
+                  name="profile"
+                  id="profile"
+                  placeholder="Name A Profile"
+                /> -->
+              </td>
               <td>
                 <input
                   class="dims pcs"
@@ -119,26 +137,27 @@
                   step="0.1"
                 />
                 <td scope="col" class="weightLabel" name="weightLabel">kgs</td>
+                <td><button onclick="saveProfile(0)">Save Profile</button></td>
               </td>
             </tr>
           </tbody>
         </table>
         <input class="btn btn-primary mt-2 me-4 add mb-2" value="Add Lines" id="addLine"/>
         <input class="btn btn-danger mt-2 me-4 remove mb-2" value="Remove Line" onclick="removeLine()"/>
-        <button class="btn btn-success mt-2 mb-2" type="submit">Calculate</button>
-        <h3>Output</h3>
-        <div>
-          <label class="m-1" for="outputDims">Dimension Output Type: </label>
-          <select class="m-1" name="outputDims" id="outputDims">
-            <option value="in">Inches</option>
-            <option value="cm">Centimeters</option>
-          </select>
-          <label class="m-1" for="outputWeight">Weight Output Type: </label>
-          <select class="m-1" name="outputWeight" id="outputWeight">
-            <option value="kg">Kilos</option>
-            <option value="lb">Pounds</option>
-          </select>
-        </form>
+        <button class="btn btn-success mt-2 mb-2" value="calculate" type="submit">Calculate</button>
+      </form>
+      <h3>Output</h3>
+      <div>
+        <label class="m-1" for="outputDims">Dimension Output Type: </label>
+        <select class="m-1" name="outputDims" id="outputDims">
+          <option value="in">Inches</option>
+          <option value="cm">Centimeters</option>
+        </select>
+        <label class="m-1" for="outputWeight">Weight Output Type: </label>
+        <select class="m-1" name="outputWeight" id="outputWeight">
+          <option value="kg">Kilos</option>
+          <option value="lb">Pounds</option>
+        </select>
       </div>
       <table class="table table-striped table-bordered align-middle">
         <thead>
@@ -171,5 +190,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="../static/javascript/script.js"></script>
+    <script src="../static/javascript/private.js"></script>
   </body>
 </html>
