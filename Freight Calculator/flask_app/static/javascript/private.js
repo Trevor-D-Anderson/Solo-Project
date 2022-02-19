@@ -106,7 +106,7 @@ document.getElementById("addLine").addEventListener("click", function () {
           step="0.1"
         />
         <td scope="col" class="weightLabel" name="weightLabel">kgs</td>
-        <td><button onclick="saveProfile(${count})">Save Profile</button></td>
+        <td><button class="btn btn-success" onclick="saveProfile(${count})">Save Profile</button></td>
       </td>`;
   tr.appendChild(newInputs);
 });
