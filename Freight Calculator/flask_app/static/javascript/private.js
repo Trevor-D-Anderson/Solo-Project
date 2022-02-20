@@ -43,7 +43,8 @@ const changeInput = (e, num) => {
   }
 };
 
-document.getElementById("addLine").addEventListener("click", function () {
+const addLine = (list) => {
+  console.log(list);
   count += 1;
   var newInputs = document.createElement("tr");
   newInputs.id = `row${count}`;
@@ -51,8 +52,11 @@ document.getElementById("addLine").addEventListener("click", function () {
         <td id="profileName${count}">
         <Select name="profileName${count}" onchange="changeInput(this, ${count})" id="selectProfile${count}">
         <option disabled selected >Select Profile</option>
-        {% for profile in profiles %}
-        <option value="{{profile.id}}">{{profile.name}}</option>
+        ${(function thing() {
+          for (let profile in list) {
+            `<option value="${profile.id}">${profile.name}</option>`;
+          }
+        })()}
         {% endfor %}
         <option value="newProfile">New Profile</option>
       </Select>
@@ -109,4 +113,4 @@ document.getElementById("addLine").addEventListener("click", function () {
         <td><button class="btn btn-success" onclick="saveProfile(${count})">Save Profile</button></td>
       </td>`;
   tr.appendChild(newInputs);
-});
+};
